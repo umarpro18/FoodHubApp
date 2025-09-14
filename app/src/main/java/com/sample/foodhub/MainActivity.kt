@@ -12,10 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import com.sample.foodhub.ui.theme.FoodhubAndroidTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         var showSplashScreen = true
@@ -38,7 +41,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+        lifecycleScope.launch {
             kotlinx.coroutines.delay(2000)
             showSplashScreen = false
         }
