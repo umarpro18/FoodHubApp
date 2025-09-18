@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Foodhub-Android</string>
+    <string name="skip">Skip</string>
+    <string name="welcome_to_foodhub">Welcome to</string>
+    <string name="food_hub_desc">Your favorite food is delivered fast at your door step.</string>
+    <string name="sign_in_with">sign in with</string>
 </resources>
