@@ -1,18 +1,25 @@
 package com.sample.foodhub.ui.features.auth
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
@@ -39,8 +46,8 @@ fun AuthScreen() {
     // Create a vertical gradient brush
     val brush: Brush = Brush.verticalGradient(
         colors = listOf(
-            androidx.compose.ui.graphics.Color.Transparent,
-            androidx.compose.ui.graphics.Color.Black
+            Color.Transparent,
+            Color.Black
         ),
         startY = getBgImageSize.value.height.toFloat() / 3
     )
@@ -52,7 +59,7 @@ fun AuthScreen() {
                 .onGloballyPositioned() {
                     getBgImageSize.value = it.size
                 }
-                .alpha(0.5f),
+                .alpha(0.6f),
         )
         Box(
             modifier = Modifier
@@ -73,9 +80,9 @@ fun AuthScreen() {
 
         Column(
             modifier = Modifier
+                .align(androidx.compose.ui.Alignment.TopStart)
                 .fillMaxWidth()
                 .padding(start = 26.dp, top = 160.dp, end = 26.dp),
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Top
         ) {
             Text(
                 text = stringResource(R.string.welcome_to_foodhub),
@@ -100,22 +107,103 @@ fun AuthScreen() {
 
         Column(
             modifier = Modifier
-                .padding(start = 16.dp, top = 200.dp)
+                .align(androidx.compose.ui.Alignment.BottomCenter)
+                .padding(16.dp)
                 .fillMaxWidth(),
-
-            ) {
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 text = stringResource(R.string.sign_in_with),
                 color = Color.White,
-                fontSize = 16.sp,
+                fontWeight = Bold,
                 modifier = Modifier
-                    .align(androidx.compose.ui.Alignment.CenterHorizontally)
                     .padding(top = 400.dp, bottom = 16.dp)
             )
+
             // Draw buttons for Google and Facebook sign-in
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 18.dp)
+                    .padding(start = 14.dp, end = 14.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(
+                    onClick = { /*TODO*/ },
+                    colors = buttonColors(
+                        containerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .size(size = 50.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_facebook),
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.continue_with_fb),
+                        color = Color.Black,
+                        fontSize = 12.sp
+                    )
+                }
 
+                Spacer(modifier = Modifier.size(30.dp))
+
+                Button(
+                    onClick = { /*TODO*/ },
+                    colors = buttonColors(
+                        containerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .size(size = 50.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_google),
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.continue_with_google),
+                        color = Color.Black,
+                        fontSize = 12.sp
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 14.dp, end = 14.dp, top = 20.dp, bottom = 20.dp)
+            ) {
+                Button(
+                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .size(size = 50.dp),
+                    colors = buttonColors(
+                        containerColor = Color.LightGray.copy(alpha = 0.5f),
+                    ),
+                    border = BorderStroke(width = 1.dp, color = Color.White)
+                ) {
+                    Text(
+                        text = stringResource(R.string.start_with_email_ph),
+                        color = Color.White
+                    )
+                }
+
+                TextButton(onClick = {}, modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = stringResource(R.string.already_have_account_sign_in),
+                        color = Color.White,
+                        fontSize = 14.sp
+                    )
+                }
+            }
         }
-
     }
 }
 
