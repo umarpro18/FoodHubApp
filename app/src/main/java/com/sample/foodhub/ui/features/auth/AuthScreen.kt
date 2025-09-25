@@ -3,11 +3,8 @@ package com.sample.foodhub.ui.features.auth
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,6 +31,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sample.foodhub.R
+import com.sample.foodhub.ui.GroupSocialButtons
 import com.sample.foodhub.ui.theme.LightOrange
 
 @Composable
@@ -59,7 +58,8 @@ fun AuthScreen() {
                 .onGloballyPositioned() {
                     getBgImageSize.value = it.size
                 }
-                .alpha(0.6f),
+                .alpha(0.7f),
+            contentScale = ContentScale.FillBounds
         )
         Box(
             modifier = Modifier
@@ -72,7 +72,7 @@ fun AuthScreen() {
                 containerColor = Color.White
             ),
             modifier = Modifier
-                .align(androidx.compose.ui.Alignment.TopEnd)
+                .align(Alignment.TopEnd)
                 .padding(top = 26.dp, end = 26.dp),
         ) {
             Text(text = stringResource(R.string.skip), color = LightOrange)
@@ -80,9 +80,9 @@ fun AuthScreen() {
 
         Column(
             modifier = Modifier
-                .align(androidx.compose.ui.Alignment.TopStart)
+                .align(Alignment.TopStart)
                 .fillMaxWidth()
-                .padding(start = 26.dp, top = 160.dp, end = 26.dp),
+                .padding(start = 16.dp, top = 160.dp, end = 16.dp),
         ) {
             Text(
                 text = stringResource(R.string.welcome_to_foodhub),
@@ -112,71 +112,13 @@ fun AuthScreen() {
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.sign_in_with),
-                color = Color.White,
-                fontWeight = Bold,
-                modifier = Modifier
-                    .padding(top = 400.dp, bottom = 16.dp)
-            )
 
-            // Draw buttons for Google and Facebook sign-in
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 18.dp)
-                    .padding(start = 14.dp, end = 14.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(
-                    onClick = { /*TODO*/ },
-                    colors = buttonColors(
-                        containerColor = Color.White
-                    ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .size(size = 50.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_facebook),
-                        contentDescription = null,
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.continue_with_fb),
-                        color = Color.Black,
-                        fontSize = 12.sp
-                    )
-                }
-
-                Spacer(modifier = Modifier.size(30.dp))
-
-                Button(
-                    onClick = { /*TODO*/ },
-                    colors = buttonColors(
-                        containerColor = Color.White
-                    ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .size(size = 50.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_google),
-                        contentDescription = null,
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.continue_with_google),
-                        color = Color.Black,
-                        fontSize = 12.sp
-                    )
-                }
-            }
+            GroupSocialButtons(onFaceBookClick = {}, onGoogleClick = {})
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 14.dp, end = 14.dp, top = 20.dp, bottom = 20.dp)
+                    .padding(start = 14.dp, end = 14.dp, top = 20.dp, bottom = 8.dp)
             ) {
                 Button(
                     onClick = {},
@@ -185,7 +127,7 @@ fun AuthScreen() {
                         .padding(bottom = 8.dp)
                         .size(size = 50.dp),
                     colors = buttonColors(
-                        containerColor = Color.LightGray.copy(alpha = 0.5f),
+                        containerColor = Color.LightGray.copy(alpha = 0.2f),
                     ),
                     border = BorderStroke(width = 1.dp, color = Color.White)
                 ) {
