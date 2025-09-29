@@ -42,7 +42,7 @@ fun GroupSocialButtons(onFaceBookClick: () -> Unit, onGoogleClick: () -> Unit) {
             Text(
                 text = stringResource(R.string.sign_in_with),
                 modifier = Modifier.padding(8.dp),
-                color = Color.White
+                color = Color.Black
             )
 
             HorizontalDivider(
