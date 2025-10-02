@@ -7,6 +7,8 @@ build/
 # Gradle cache and lock files
 **/*.lock
 **/*.bin
+*.lock
+*.bin
 
 # Local configuration
 local.properties
