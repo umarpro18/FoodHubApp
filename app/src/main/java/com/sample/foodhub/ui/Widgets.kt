@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -99,8 +101,45 @@ fun SocialButtons(icon: Int, title: Int, onClick: () -> Unit) {
 }
 
 
+@Composable
+fun GroupOutLinedTextBoxWithHeader(label: String, onValueChanged: (String) -> Unit) {
+    // Implementation for outlined text fields like Email, Password, etc.
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = label,
+            fontSize = 16.sp,
+            color = Color.Gray,
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .align(alignment = Alignment.Start)
+        )
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = onValueChanged,
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(80.dp)
+                .padding(bottom = 16.dp),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
+            singleLine = true,
+        )
+    }
+}
+
 @Preview(showBackground = false)
 @Composable
 fun GroupSocialButtonsPreview() {
     GroupSocialButtons(onFaceBookClick = {}, onGoogleClick = {})
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GroupOutLinedTextBoxWithHeaderPreview() {
+    GroupOutLinedTextBoxWithHeader(label = "Email") {}
 }
