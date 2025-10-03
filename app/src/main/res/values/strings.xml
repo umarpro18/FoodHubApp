@@ -18,4 +18,10 @@
     <string name="verification_header">Verification Code</string>
     <string name="verification_data_detail">Please type the verification code sent to prelookstudio@gmail.com</string>
     <string name="please_resend_code">I don\'t receive a code! Please resend</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="reset_password_detail">Please enter your email address to request a password reset</string>
+    <string name="send_new_password">SEND NEW PASSWORD</string>
+    <string name="phone_registration_detail">Enter your phone number to verify your account</string>
+    <string name="phone_registration">Phone Registration</string>
+    <string name="send_otp">SEND</string>
 </resources>
