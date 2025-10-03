@@ -15,4 +15,7 @@
     <string name="login">Login</string>
     <string name="forget_password">Forget password?</string>
     <string name="dont_have_account_sign_up">Don\'t have an account? Sign up</string>
+    <string name="verification_header">Verification Code</string>
+    <string name="verification_data_detail">Please type the verification code sent to prelookstudio@gmail.com</string>
+    <string name="please_resend_code">I don\'t receive a code! Please resend</string>
 </resources>
