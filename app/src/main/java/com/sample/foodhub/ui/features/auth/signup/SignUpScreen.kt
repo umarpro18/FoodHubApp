@@ -19,11 +19,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sample.foodhub.R
-import com.sample.foodhub.ui.GroupOutLinedTextBoxWithHeader
+import com.sample.foodhub.ui.FoodHubOutlinedTextField
 import com.sample.foodhub.ui.GroupSocialButtons
 import com.sample.foodhub.ui.theme.LightOrange
 import java.util.Locale
@@ -58,11 +59,62 @@ fun SignUpScreen() {
                 fontWeight = Bold
             )
 
-            GroupOutLinedTextBoxWithHeader(stringResource(R.string.full_name)) {}
+            FoodHubOutlinedTextField(
+                value = "",
+                onValueChange = {},
+                label = {
+                    Text(
+                        text = stringResource(R.string.full_name),
+                        fontSize = 16.sp,
+                        color = Color.Gray,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
 
-            GroupOutLinedTextBoxWithHeader(stringResource(R.string.email)) {}
+            FoodHubOutlinedTextField(
+                value = "",
+                onValueChange = {},
+                label = {
+                    Text(
+                        text = stringResource(R.string.email),
+                        fontSize = 16.sp,
+                        color = Color.Gray,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth(),
+            )
 
-            GroupOutLinedTextBoxWithHeader(stringResource(R.string.password)) {}
+            FoodHubOutlinedTextField(
+                value = "",
+                onValueChange = {},
+                label = {
+                    Text(
+                        text = stringResource(R.string.password),
+                        fontSize = 16.sp,
+                        color = Color.Gray,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth(),
+                visualTransformation = PasswordVisualTransformation(),
+                trailingIcon = {
+                    // You can add an icon here for toggling password visibility
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_eye),
+                        contentDescription = "Toggle Password Visibility",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            )
 
             Button(
                 onClick = {}, modifier = Modifier

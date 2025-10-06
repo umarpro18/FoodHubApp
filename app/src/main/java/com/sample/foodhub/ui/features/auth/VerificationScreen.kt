@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sample.foodhub.R
+import com.sample.foodhub.ui.theme.Orange
 
 @Composable
 fun VerificationScreen() {
@@ -67,7 +69,11 @@ fun VerificationScreen() {
                     modifier = Modifier
                         .weight(1f),
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = Color.LightGray.copy(0.5f),
+                        focusedBorderColor = Orange
+                    )
                 )
 
                 OutlinedTextField(
@@ -76,7 +82,11 @@ fun VerificationScreen() {
                     modifier = Modifier
                         .weight(1f),
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = Color.LightGray.copy(0.5f),
+                        focusedBorderColor = Orange
+                    )
                 )
 
                 OutlinedTextField(
@@ -85,7 +95,11 @@ fun VerificationScreen() {
                     modifier = Modifier
                         .weight(1f),
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = Color.LightGray.copy(0.5f),
+                        focusedBorderColor = Orange
+                    )
                 )
 
                 OutlinedTextField(
@@ -94,7 +108,11 @@ fun VerificationScreen() {
                     modifier = Modifier
                         .weight(1f),
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = Color.LightGray.copy(0.5f),
+                        focusedBorderColor = Orange
+                    )
                 )
             }
 

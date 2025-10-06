@@ -1,17 +1,24 @@
 package com.sample.foodhub.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,10 +26,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sample.foodhub.R
+import com.sample.foodhub.ui.theme.Orange
 
 @Composable
 fun GroupSocialButtons(onFaceBookClick: () -> Unit, onGoogleClick: () -> Unit) {
@@ -132,6 +143,71 @@ fun GroupOutLinedTextBoxWithHeader(label: String, onValueChanged: (String) -> Un
     }
 }
 
+
+@Composable
+fun FoodHubOutlinedTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    textStyle: TextStyle = LocalTextStyle.current,
+    label: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    prefix: @Composable (() -> Unit)? = null,
+    suffix: @Composable (() -> Unit)? = null,
+    supportingText: @Composable (() -> Unit)? = null,
+    isError: Boolean = false,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    singleLine: Boolean = false,
+    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+    minLines: Int = 1,
+    interactionSource: MutableInteractionSource? = null,
+    shape: Shape = RoundedCornerShape(10.dp),
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors().copy(
+        unfocusedIndicatorColor = Color.LightGray.copy(0.5f),
+        focusedIndicatorColor = Orange,
+    )
+) {
+    Column(modifier = Modifier.padding(vertical = 8.dp)) {
+        label?.let {
+            Row {
+                it().toString()
+            }
+        }
+
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            label = null,
+            modifier = modifier,
+            shape = shape,
+            singleLine = singleLine,
+            maxLines = maxLines,
+            minLines = minLines,
+            enabled = enabled,
+            readOnly = readOnly,
+            textStyle = textStyle.copy(fontWeight = FontWeight.SemiBold),
+            placeholder = { if (placeholder != null) placeholder() },
+            leadingIcon = { if (leadingIcon != null) leadingIcon() },
+            trailingIcon = { if (trailingIcon != null) trailingIcon() },
+            prefix = { if (prefix != null) prefix() },
+            suffix = { if (suffix != null) suffix() },
+            supportingText = { if (supportingText != null) supportingText() },
+            isError = isError,
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            interactionSource = interactionSource,
+            colors = colors
+        )
+    }
+}
+
 @Preview(showBackground = false)
 @Composable
 fun GroupSocialButtonsPreview() {
@@ -142,4 +218,24 @@ fun GroupSocialButtonsPreview() {
 @Composable
 fun GroupOutLinedTextBoxWithHeaderPreview() {
     GroupOutLinedTextBoxWithHeader(label = "Email") {}
+}
+
+@Preview
+@Composable
+fun FoodHubOutlinedTextFieldPreview() {
+    FoodHubOutlinedTextField(
+        value = "",
+        onValueChange = {},
+        label = {
+            Text(
+                text = "Test",
+                fontSize = 16.sp,
+                color = Color.Gray,
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+            )
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+    )
 }

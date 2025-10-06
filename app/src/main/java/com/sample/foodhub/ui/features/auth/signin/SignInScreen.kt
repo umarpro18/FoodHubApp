@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -21,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sample.foodhub.R
-import com.sample.foodhub.ui.GroupOutLinedTextBoxWithHeader
+import com.sample.foodhub.ui.FoodHubOutlinedTextField
 import com.sample.foodhub.ui.GroupSocialButtons
 import com.sample.foodhub.ui.theme.LightOrange
 import java.util.Locale
@@ -38,7 +40,7 @@ fun SignInScreen() {
         )
 
         // revisit later
-        /*IconButton(
+        IconButton(
             onClick = {},
             modifier = Modifier
                 .padding(start = 16.dp, top = 30.dp)
@@ -49,7 +51,7 @@ fun SignInScreen() {
                 contentDescription = null,
                 tint = Color.Unspecified,
             )
-        }*/
+        }
 
         Column(
             modifier = Modifier
@@ -66,9 +68,46 @@ fun SignInScreen() {
                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
             )
 
-            GroupOutLinedTextBoxWithHeader(stringResource(R.string.email)) {}
+            FoodHubOutlinedTextField(
+                value = "",
+                onValueChange = {},
+                label = {
+                    Text(
+                        text = stringResource(R.string.email),
+                        fontSize = 16.sp,
+                        color = Color.Gray,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth(),
+            )
 
-            GroupOutLinedTextBoxWithHeader(stringResource(R.string.password)) { }
+            FoodHubOutlinedTextField(
+                value = "",
+                onValueChange = {},
+                label = {
+                    Text(
+                        text = stringResource(R.string.password),
+                        fontSize = 16.sp,
+                        color = Color.Gray,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                    )
+                },
+                visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                trailingIcon = {
+                    Image(
+                        painter = painterResource(R.drawable.ic_eye),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                    )
+                }
+            )
 
             TextButton(onClick = {}) {
                 Text(
