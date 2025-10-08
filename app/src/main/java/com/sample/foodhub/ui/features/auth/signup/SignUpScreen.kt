@@ -1,8 +1,10 @@
 package com.sample.foodhub.ui.features.auth.signup
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,6 +14,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +28,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sample.foodhub.R
 import com.sample.foodhub.ui.FoodHubOutlinedTextField
 import com.sample.foodhub.ui.GroupSocialButtons
@@ -30,7 +37,40 @@ import com.sample.foodhub.ui.theme.LightOrange
 import java.util.Locale
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel<SignUpViewModel>()) {
+
+    val name = viewModel.name.collectAsStateWithLifecycle()
+    val email = viewModel.email.collectAsStateWithLifecycle()
+    val password = viewModel.password.collectAsStateWithLifecycle()
+
+    val errorMessage = remember { mutableStateOf<String?>("") }
+    val loading = remember { mutableStateOf(false) }
+    val uiState = viewModel.uiState.collectAsState()
+
+    when (uiState.value) {
+        is SignUpViewModel.SignUpUiEvent.Success -> {
+            // Navigate to the next screen or show success message
+            loading.value = false
+            errorMessage.value = null
+        }
+
+        is SignUpViewModel.SignUpUiEvent.Error -> {
+            // Show error message to the user, e.g., using a Snackbar or Toast
+            errorMessage.value = (uiState.value as SignUpViewModel.SignUpUiEvent.Error).message
+            loading.value = false
+        }
+
+        is SignUpViewModel.SignUpUiEvent.Loading -> {
+            loading.value = true
+            errorMessage.value = null
+        }
+
+        is SignUpViewModel.SignUpUiEvent.Idle -> {
+            // TODO()
+        }
+    }
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,8 +100,8 @@ fun SignUpScreen() {
             )
 
             FoodHubOutlinedTextField(
-                value = "codeWithUmar",
-                onValueChange = {},
+                value = name.value,
+                onValueChange = { viewModel.setName(it) },
                 label = {
                     Text(
                         text = stringResource(R.string.full_name),
@@ -73,12 +113,12 @@ fun SignUpScreen() {
                 },
                 modifier = Modifier
                     .fillMaxWidth(),
-                leadingIcon = null
+                singleLine = true
             )
 
             FoodHubOutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = email.value,
+                onValueChange = { viewModel.setEmail(it) },
                 label = {
                     Text(
                         text = stringResource(R.string.email),
@@ -90,11 +130,12 @@ fun SignUpScreen() {
                 },
                 modifier = Modifier
                     .fillMaxWidth(),
+                singleLine = true
             )
 
             FoodHubOutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = password.value,
+                onValueChange = { viewModel.setPassword(it) },
                 label = {
                     Text(
                         text = stringResource(R.string.password),
@@ -114,16 +155,32 @@ fun SignUpScreen() {
                         contentDescription = "Toggle Password Visibility",
                         modifier = Modifier.size(24.dp)
                     )
-                }
+                },
+                singleLine = true
             )
 
+            Spacer(modifier = Modifier.size(24.dp))
+
             Button(
-                onClick = {}, modifier = Modifier
-                    .size(248.dp, 60.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(LightOrange.value)) // Orange color
+                onClick = { viewModel.onSignUpClick() },
+                modifier = Modifier.size(248.dp, 60.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(LightOrange.value))
             )
             {
-                Text(text = stringResource(R.string.sign_up).toUpperCase(Locale.ROOT))
+                Box {
+                    AnimatedContent(targetState = loading.value) {
+                        if (it) {
+                            androidx.compose.material3.CircularProgressIndicator(
+                                color = Color.White,
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .align(Alignment.Center)
+                            )
+                        } else {
+                            Text(text = stringResource(R.string.sign_up).toUpperCase(Locale.ROOT))
+                        }
+                    }
+                }
             }
 
             TextButton(onClick = {}, modifier = Modifier.padding(bottom = 30.dp)) {
