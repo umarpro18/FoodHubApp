@@ -38,7 +38,7 @@ import com.sample.foodhub.ui.theme.Orange
 @Composable
 fun GroupSocialButtons(onFaceBookClick: () -> Unit, onGoogleClick: () -> Unit) {
     // Implementation for social buttons like Google, Facebook, etc.
-    Column {
+    Column(modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -111,39 +111,6 @@ fun SocialButtons(icon: Int, title: Int, onClick: () -> Unit) {
     }
 }
 
-
-@Composable
-fun GroupOutLinedTextBoxWithHeader(label: String, onValueChanged: (String) -> Unit) {
-    // Implementation for outlined text fields like Email, Password, etc.
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = label,
-            fontSize = 16.sp,
-            color = Color.Gray,
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .align(alignment = Alignment.Start)
-        )
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = onValueChanged,
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(80.dp)
-                .padding(bottom = 16.dp),
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
-            singleLine = true,
-        )
-    }
-}
-
-
 @Composable
 fun FoodHubOutlinedTextField(
     value: String,
@@ -212,12 +179,6 @@ fun FoodHubOutlinedTextField(
 @Composable
 fun GroupSocialButtonsPreview() {
     GroupSocialButtons(onFaceBookClick = {}, onGoogleClick = {})
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GroupOutLinedTextBoxWithHeaderPreview() {
-    GroupOutLinedTextBoxWithHeader(label = "Email") {}
 }
 
 @Preview

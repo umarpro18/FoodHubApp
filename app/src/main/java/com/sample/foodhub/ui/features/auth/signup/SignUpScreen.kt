@@ -45,7 +45,7 @@ fun SignUpScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
@@ -60,7 +60,7 @@ fun SignUpScreen() {
             )
 
             FoodHubOutlinedTextField(
-                value = "",
+                value = "codeWithUmar",
                 onValueChange = {},
                 label = {
                     Text(

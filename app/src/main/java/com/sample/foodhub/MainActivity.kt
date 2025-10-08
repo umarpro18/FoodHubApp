@@ -18,6 +18,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.sample.foodhub.data.FoodApi
 import com.sample.foodhub.ui.features.auth.AuthScreen
+import com.sample.foodhub.ui.features.auth.signup.SignUpScreen
 import com.sample.foodhub.ui.theme.FoodhubAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -46,7 +47,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        AuthScreen() // your login/welcome screen
+                        //AuthScreen() // your login/welcome screen
+                        SignUpScreen()
                     }
                 }
             }
