@@ -72,7 +72,8 @@ fun SignUpScreen() {
                     )
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                leadingIcon = null
             )
 
             FoodHubOutlinedTextField(
