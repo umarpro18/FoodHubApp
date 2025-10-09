@@ -1,5 +1,6 @@
 package com.sample.foodhub.ui.features.auth.signup
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -14,13 +15,14 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
@@ -34,42 +36,51 @@ import com.sample.foodhub.R
 import com.sample.foodhub.ui.FoodHubOutlinedTextField
 import com.sample.foodhub.ui.GroupSocialButtons
 import com.sample.foodhub.ui.theme.LightOrange
+import kotlinx.coroutines.flow.collectLatest
 import java.util.Locale
 
 @Composable
 fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel<SignUpViewModel>()) {
 
+    val context = LocalContext.current
     val name = viewModel.name.collectAsStateWithLifecycle()
     val email = viewModel.email.collectAsStateWithLifecycle()
     val password = viewModel.password.collectAsStateWithLifecycle()
 
-    val errorMessage = remember { mutableStateOf<String?>("") }
-    val loading = remember { mutableStateOf(false) }
     val uiState = viewModel.uiState.collectAsState()
+    val errorMessage = uiState.value is SignUpViewModel.SignUpUiEvent.Error
+    val isLoading = uiState.value == SignUpViewModel.SignUpUiEvent.Loading
 
-    when (uiState.value) {
-        is SignUpViewModel.SignUpUiEvent.Success -> {
-            // Navigate to the next screen or show success message
-            loading.value = false
-            errorMessage.value = null
-        }
+    LaunchedEffect(uiState.value) {
+        when (val state = uiState.value) {
+            is SignUpViewModel.SignUpUiEvent.Success -> {
+                // Navigate to the next screen or show success message
+                Toast.makeText(context, "Sign Up Successful again", Toast.LENGTH_LONG).show()
+            }
 
-        is SignUpViewModel.SignUpUiEvent.Error -> {
-            // Show error message to the user, e.g., using a Snackbar or Toast
-            errorMessage.value = (uiState.value as SignUpViewModel.SignUpUiEvent.Error).message
-            loading.value = false
-        }
-
-        is SignUpViewModel.SignUpUiEvent.Loading -> {
-            loading.value = true
-            errorMessage.value = null
-        }
-
-        is SignUpViewModel.SignUpUiEvent.Idle -> {
-            // TODO()
+            else -> {
+                // No action needed for Loading and Error handled top
+            }
         }
     }
 
+    LaunchedEffect(true) {
+        viewModel.navigationEvent.collectLatest { event ->
+            when (event) {
+                is SignUpViewModel.SignUpUiNavigationEvent.NavigateToHomeScreen -> {
+                    Toast.makeText(context, "Sign Up Successful", Toast.LENGTH_LONG).show()
+                }
+
+                is SignUpViewModel.SignUpUiNavigationEvent.NavigateToLoginScreen -> {
+                    // Handle navigation to Sign In screen
+                }
+
+                else -> {
+                    // No navigation action
+                }
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -163,12 +174,12 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel<SignUpViewModel>()) 
 
             Button(
                 onClick = { viewModel.onSignUpClick() },
-                modifier = Modifier.size(248.dp, 60.dp),
+                modifier = Modifier.size(248.dp, 60.dp).clip(ButtonDefaults.shape),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(LightOrange.value))
             )
             {
                 Box {
-                    AnimatedContent(targetState = loading.value) {
+                    AnimatedContent(targetState = isLoading) {
                         if (it) {
                             androidx.compose.material3.CircularProgressIndicator(
                                 color = Color.White,

@@ -2,6 +2,7 @@ package com.sample.foodhub.ui.features.auth.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sample.foodhub.data.FoodApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(): ViewModel() {
+class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SignUpUiEvent>(SignUpUiEvent.Idle)
     val uiState = _uiState.asStateFlow()
@@ -39,19 +40,25 @@ class SignUpViewModel @Inject constructor(): ViewModel() {
     }
 
     fun onSignUpClick() {
-        // Handle sign up logic here
-        // Update _uiState and _navigationEvent as needed
         viewModelScope.launch {
-            // Simulate sign-up process
             _uiState.value = SignUpUiEvent.Loading
             try {
-                // Simulate network delay
                 kotlinx.coroutines.delay(3000)
+                val response = foodApi.signUp(
+                    com.sample.foodhub.data.models.SignUpRequest(
+                        name = name.value,
+                        email = email.value,
+                        password = password.value
+                    )
+                )
                 // On success
                 _uiState.value = SignUpUiEvent.Success
-                _navigationEvent.emit(SignUpUiNavigationEvent.NavigateToHomeScreen)
+                if (response.token.isNotEmpty()) {
+                    _uiState.value = SignUpUiEvent.Success
+                    _navigationEvent.emit(SignUpUiNavigationEvent.NavigateToHomeScreen)
+                }
             } catch (e: Exception) {
-                // On error
+                e.printStackTrace()
                 _uiState.value = SignUpUiEvent.Error(e.message ?: "Unknown error")
             }
         }
