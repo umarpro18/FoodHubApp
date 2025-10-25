@@ -1,5 +1,6 @@
 package com.sample.foodhub.ui.features.auth.signup
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sample.foodhub.data.FoodApi
@@ -52,14 +53,14 @@ class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel() {
                     )
                 )
                 // On success
-                _uiState.value = SignUpUiEvent.Success
+                //_uiState.value = SignUpUiEvent.Success
                 if (response.token.isNotEmpty()) {
                     _uiState.value = SignUpUiEvent.Success
                     _navigationEvent.emit(SignUpUiNavigationEvent.NavigateToHomeScreen)
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
-                _uiState.value = SignUpUiEvent.Error(e.message ?: "Unknown error")
+                Log.d("Sign up error log: ", e.printStackTrace().toString())
+                _uiState.value = SignUpUiEvent.Error("Sign up issue, please try later!")
             }
         }
     }

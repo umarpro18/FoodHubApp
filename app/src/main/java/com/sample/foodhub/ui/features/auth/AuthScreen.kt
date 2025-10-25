@@ -35,7 +35,7 @@ import com.sample.foodhub.ui.GroupSocialButtons
 import com.sample.foodhub.ui.theme.LightOrange
 
 @Composable
-fun AuthScreen() {
+fun AuthScreen(onEmailOrPhoneLoginClicked: () -> Unit) {
 
     // State to hold the size of the background image
     val getBgImageSize = remember {
@@ -121,7 +121,7 @@ fun AuthScreen() {
                     .padding(start = 14.dp, end = 14.dp, top = 20.dp, bottom = 8.dp)
             ) {
                 Button(
-                    onClick = {},
+                    onClick = { onEmailOrPhoneLoginClicked() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -153,5 +153,5 @@ fun AuthScreen() {
 @Preview
 @Composable
 fun AuthScreenPreview() {
-    AuthScreen()
+    AuthScreen(onEmailOrPhoneLoginClicked = {})
 }

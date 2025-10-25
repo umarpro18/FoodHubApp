@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,7 +46,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel<SignUpViewModel>()) 
     val email = viewModel.email.collectAsStateWithLifecycle()
     val password = viewModel.password.collectAsStateWithLifecycle()
 
-    val uiState = viewModel.uiState.collectAsState()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val errorMessage = uiState.value is SignUpViewModel.SignUpUiEvent.Error
     val isLoading = uiState.value == SignUpViewModel.SignUpUiEvent.Loading
 
@@ -172,9 +171,18 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel<SignUpViewModel>()) 
 
             Spacer(modifier = Modifier.size(24.dp))
 
+            //Show error
+            if (errorMessage) Text(
+                text = (uiState.value as SignUpViewModel.SignUpUiEvent.Error).message,
+                color = Color.Red,
+                fontSize = 12.sp
+            )
+
             Button(
                 onClick = { viewModel.onSignUpClick() },
-                modifier = Modifier.size(248.dp, 60.dp).clip(ButtonDefaults.shape),
+                modifier = Modifier
+                    .size(248.dp, 60.dp)
+                    .clip(ButtonDefaults.shape),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(LightOrange.value))
             )
             {
