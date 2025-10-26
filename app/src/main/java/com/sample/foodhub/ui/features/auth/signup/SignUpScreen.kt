@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,7 +30,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sample.foodhub.R
 import com.sample.foodhub.ui.FoodHubOutlinedTextField
@@ -50,6 +50,12 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
     val errorMessage = uiState.value is SignUpViewModel.SignUpUiEvent.Error
     val isLoading = uiState.value == SignUpViewModel.SignUpUiEvent.Loading
 
+    val setName: (String) -> Unit = { viewModel.setName(it) }
+    val setEmail: (String) -> Unit = { viewModel.setEmail(it) }
+    val setPassword: (String) -> Unit = { viewModel.setPassword(it) }
+
+    val signUpClicked: () -> Unit = { viewModel.onSignUpClick() }
+
     LaunchedEffect(uiState.value) {
         when (val state = uiState.value) {
             is SignUpViewModel.SignUpUiEvent.Success -> {
@@ -67,7 +73,6 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
         viewModel.navigationEvent.collectLatest { event ->
             when (event) {
                 is SignUpViewModel.SignUpUiNavigationEvent.NavigateToHomeScreen -> {
-                    Toast.makeText(context, "Sign Up Successful", Toast.LENGTH_LONG).show()
                     onSignUpSuccess()
                 }
 
@@ -82,6 +87,33 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
         }
     }
 
+    SignUpScreenContent(
+        name.value,
+        email.value,
+        password.value,
+        errorMessage,
+        isLoading,
+        setName,
+        setEmail,
+        setPassword,
+        signUpClicked,
+        uiState.value
+    )
+}
+
+@Composable
+fun SignUpScreenContent(
+    name: String,
+    email: String,
+    password: String,
+    errorMessage: Boolean,
+    isLoading: Boolean,
+    setName: (String) -> Unit,
+    setEmail: (String) -> Unit,
+    setPassword: (String) -> Unit,
+    signUpClicked: () -> Unit,
+    uiState: (SignUpViewModel.SignUpUiEvent)
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -111,8 +143,8 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
             )
 
             FoodHubOutlinedTextField(
-                value = name.value,
-                onValueChange = { viewModel.setName(it) },
+                value = name,
+                onValueChange = { setName(it) },
                 label = {
                     Text(
                         text = stringResource(R.string.full_name),
@@ -128,8 +160,8 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
             )
 
             FoodHubOutlinedTextField(
-                value = email.value,
-                onValueChange = { viewModel.setEmail(it) },
+                value = email,
+                onValueChange = { setEmail(it) },
                 label = {
                     Text(
                         text = stringResource(R.string.email),
@@ -145,8 +177,8 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
             )
 
             FoodHubOutlinedTextField(
-                value = password.value,
-                onValueChange = { viewModel.setPassword(it) },
+                value = password,
+                onValueChange = { setPassword(it) },
                 label = {
                     Text(
                         text = stringResource(R.string.password),
@@ -174,13 +206,13 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
 
             //Show error
             if (errorMessage) Text(
-                text = (uiState.value as SignUpViewModel.SignUpUiEvent.Error).message,
+                text = (uiState as SignUpViewModel.SignUpUiEvent.Error).message,
                 color = Color.Red,
                 fontSize = 12.sp
             )
 
             Button(
-                onClick = { viewModel.onSignUpClick() },
+                onClick = { signUpClicked() },
                 modifier = Modifier
                     .size(248.dp, 60.dp)
                     .clip(ButtonDefaults.shape),
@@ -190,7 +222,7 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
                 Box {
                     AnimatedContent(targetState = isLoading) {
                         if (it) {
-                            androidx.compose.material3.CircularProgressIndicator(
+                            CircularProgressIndicator(
                                 color = Color.White,
                                 modifier = Modifier
                                     .size(32.dp)
@@ -221,8 +253,20 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen(viewModel = hiltViewModel<SignUpViewModel>(), onSignUpSuccess = {})
+    SignUpScreenContent(
+        name = "",
+        email = "",
+        password = "",
+        errorMessage = false,
+        isLoading = false,
+        setName = {},
+        setEmail = {},
+        setPassword = {},
+        signUpClicked = {},
+        uiState = SignUpViewModel.SignUpUiEvent.Idle
+    )
 }
