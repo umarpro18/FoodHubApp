@@ -35,7 +35,7 @@ import com.sample.foodhub.ui.GroupSocialButtons
 import com.sample.foodhub.ui.theme.LightOrange
 
 @Composable
-fun AuthScreen(onEmailOrPhoneLoginClicked: () -> Unit) {
+fun AuthScreen(onSignUpClicked: () -> Unit, onSignInClicked: () -> Unit) {
 
     // State to hold the size of the background image
     val getBgImageSize = remember {
@@ -73,7 +73,7 @@ fun AuthScreen(onEmailOrPhoneLoginClicked: () -> Unit) {
             ),
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(top = 26.dp, end = 26.dp),
+                .padding(top = 24.dp, end = 26.dp),
         ) {
             Text(text = stringResource(R.string.skip), color = LightOrange)
         }
@@ -121,7 +121,7 @@ fun AuthScreen(onEmailOrPhoneLoginClicked: () -> Unit) {
                     .padding(start = 14.dp, end = 14.dp, top = 20.dp, bottom = 8.dp)
             ) {
                 Button(
-                    onClick = { onEmailOrPhoneLoginClicked() },
+                    onClick = { onSignUpClicked() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -137,7 +137,7 @@ fun AuthScreen(onEmailOrPhoneLoginClicked: () -> Unit) {
                     )
                 }
 
-                TextButton(onClick = {}, modifier = Modifier.fillMaxWidth()) {
+                TextButton(onClick = { onSignInClicked() }, modifier = Modifier.fillMaxWidth()) {
                     Text(
                         text = stringResource(R.string.already_have_account_sign_in),
                         color = Color.White,
@@ -153,5 +153,5 @@ fun AuthScreen(onEmailOrPhoneLoginClicked: () -> Unit) {
 @Preview
 @Composable
 fun AuthScreenPreview() {
-    AuthScreen(onEmailOrPhoneLoginClicked = {})
+    AuthScreen(onSignUpClicked = {}, onSignInClicked = {})
 }

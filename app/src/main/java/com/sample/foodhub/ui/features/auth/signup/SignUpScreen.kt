@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 import java.util.Locale
 
 @Composable
-fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel<SignUpViewModel>()) {
+fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
 
     val context = LocalContext.current
     val name = viewModel.name.collectAsStateWithLifecycle()
@@ -68,6 +68,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel<SignUpViewModel>()) 
             when (event) {
                 is SignUpViewModel.SignUpUiNavigationEvent.NavigateToHomeScreen -> {
                     Toast.makeText(context, "Sign Up Successful", Toast.LENGTH_LONG).show()
+                    onSignUpSuccess()
                 }
 
                 is SignUpViewModel.SignUpUiNavigationEvent.NavigateToLoginScreen -> {
@@ -223,5 +224,5 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel<SignUpViewModel>()) 
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignUpScreen(viewModel = hiltViewModel<SignUpViewModel>(), onSignUpSuccess = {})
 }
