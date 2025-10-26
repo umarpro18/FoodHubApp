@@ -107,7 +107,12 @@ fun AppGraph(modifier: Modifier) {
                                 inclusive = true
                             }
                         }
-                    })
+                    },
+                    onSignInClicked = {
+                        navHostController.popBackStack()
+                    }
+                )
+
             }
         }
 

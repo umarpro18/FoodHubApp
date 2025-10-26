@@ -65,6 +65,12 @@ class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel() {
         }
     }
 
+    fun onGotoLoginScreenClicked() {
+        viewModelScope.launch {
+            _navigationEvent.emit(SignUpUiNavigationEvent.NavigateToLoginScreen)
+        }
+    }
+
     //Two events for a given screen: 1. UI State 2. Navigation state (side effects)
     sealed class SignUpUiEvent {
         object Idle : SignUpUiEvent()

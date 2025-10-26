@@ -39,7 +39,11 @@ import kotlinx.coroutines.flow.collectLatest
 import java.util.Locale
 
 @Composable
-fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
+fun SignUpScreen(
+    viewModel: SignUpViewModel,
+    onSignUpSuccess: () -> Unit,
+    onSignInClicked: () -> Unit
+) {
 
     val context = LocalContext.current
     val name = viewModel.name.collectAsStateWithLifecycle()
@@ -55,6 +59,7 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
     val setPassword: (String) -> Unit = { viewModel.setPassword(it) }
 
     val signUpClicked: () -> Unit = { viewModel.onSignUpClick() }
+    val gotoLoginClicked: () -> Unit = { viewModel.onGotoLoginScreenClicked() }
 
     LaunchedEffect(uiState.value) {
         when (val state = uiState.value) {
@@ -77,7 +82,7 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
                 }
 
                 is SignUpViewModel.SignUpUiNavigationEvent.NavigateToLoginScreen -> {
-                    // Handle navigation to Sign In screen
+                    onSignInClicked()
                 }
 
                 else -> {
@@ -97,6 +102,7 @@ fun SignUpScreen(viewModel: SignUpViewModel, onSignUpSuccess: () -> Unit) {
         setEmail,
         setPassword,
         signUpClicked,
+        gotoLoginClicked,
         uiState.value
     )
 }
@@ -112,6 +118,7 @@ fun SignUpScreenContent(
     setEmail: (String) -> Unit,
     setPassword: (String) -> Unit,
     signUpClicked: () -> Unit,
+    gotoLoginClicked: () -> Unit,
     uiState: (SignUpViewModel.SignUpUiEvent)
 ) {
     Box(
@@ -235,7 +242,10 @@ fun SignUpScreenContent(
                 }
             }
 
-            TextButton(onClick = {}, modifier = Modifier.padding(bottom = 30.dp)) {
+            TextButton(
+                onClick = { gotoLoginClicked() },
+                modifier = Modifier.padding(bottom = 30.dp)
+            ) {
                 Text(text = stringResource(R.string.already_have_account_sign_in))
             }
         }
@@ -267,6 +277,7 @@ fun SignUpScreenPreview() {
         setEmail = {},
         setPassword = {},
         signUpClicked = {},
+        gotoLoginClicked = {},
         uiState = SignUpViewModel.SignUpUiEvent.Idle
     )
 }
